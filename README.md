@@ -1,3 +1,3 @@
 # DesingPatterns
 
-Grupo 4 | DesingPatterns
+Grupo 4 | PatternsDesing
