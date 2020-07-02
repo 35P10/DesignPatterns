@@ -2,53 +2,88 @@
 using namespace std;
 
 
-class Perro
+class clavijaSquare
 {
  public:
-     Perro(){
-        cout << "El perro" << endl;
+     int area=0;
+     clavijaSquare(int x){
+        area = x;
+        cout << "Es una clavija cuadrada\n" << endl;
     }
-    void Comer() {
-        cout << "El perro come" << endl;
-    }
-    void Ladrar() {
-        cout << "Guau!" << endl;
-    }
-};
-
-class perroDePeluche
-{
-public:
-    perroDePeluche(){
-        cout << "Es un perro de peluche" << endl;
-    }
-    void virtual Sonar() {
-    cout << "Guau! pero en peluche" << endl;
+    int getX() {
+        return area;
     }
 };
 
-class Adapter : public perroDePeluche
+class clavijaCircular
 {
 public:
-    Perro *T;
-    Adapter(Perro *TT) {
+
+    int radio;
+
+    clavijaCircular(){
+        cout << "Es una clavija circular\n" << endl;
+    }
+    void virtual setRadio(int x)
+    {
+        radio = x;
+    }
+    int virtual getRadio() {
+     return radio;
+    }
+};
+
+class Adapter : public clavijaCircular
+{
+public:
+    clavijaSquare *T;
+    Adapter(clavijaSquare *TT) {
             T = TT;
     }
-    void Sonar() {
-        T->Ladrar();
+    int getRadio() {
+        return T->getX();
     }
 };
+
+class Enchufe
+{
+public:
+    int radio;
+
+    Enchufe(int x)
+    {
+        radio = x;
+    }
+
+    void conectar(clavijaCircular *S)
+    {
+        if(radio == S->getRadio())
+        {
+            cout<<"Conectado\n";
+        }
+        else if (radio > S->getRadio())
+        {
+            cout<<"Clavija muy pequeña para el enchufe\n";
+        }
+        else
+        {
+            cout<<"Clavija muy grande para el enchufe\n";
+        }
+    }
+};
+
 
 int main()
 {
-    Perro *myPerro = new Perro;
-    perroDePeluche *myPerroDePeluche = new perroDePeluche();
-    perroDePeluche *myPerroDePeluche2 = new Adapter(myPerro);
+    clavijaSquare *ClavijoCuadrado = new clavijaSquare(6);
+    clavijaCircular *ClavijoCircular = new clavijaCircular();
+    clavijaCircular *adaptador = new Adapter(ClavijoCuadrado);
 
-    myPerro->Ladrar();
-
-    myPerroDePeluche->Sonar();
-
-    myPerroDePeluche2->Sonar();
+    adaptador->getRadio();
+    ClavijoCircular->setRadio(5);
+    Enchufe X(5);
+    X.conectar(ClavijoCircular);
+    X.conectar(adaptador);
 
 }
+
